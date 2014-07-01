@@ -1,0 +1,15 @@
+div(ng-include='\'partials/navbar\'')
+
+form.sidebar-form.col-centered(ng-submit="submit()")
+  .input-group
+    input.form-control(id='q',type='text',autocomplete='off',placeholder='Search',ng-model='q')
+    span.input-group-btn
+      button#search-btn.btn.btn-flat(type='submit', name='seach',)
+        i(class='glyphicon glyphicon-search')
+div{{numFound}}
+div(ng-repeat='document in documents',ng-model='menus')
+  h3
+  a(href='{{document.fields[0].values[0]}}') {{document.snippets[1].values[0]}}
+  div {{document.snippets[0].values[0]}}
+  a.btn.btn-primary.btn-xs(href='{{document.fields[0].values[0]}}',target='_blank') Read more
+
