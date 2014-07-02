@@ -8,36 +8,40 @@
 5.	[OpenSearchServer](http://www.opensearchserver.com)
 
 ##Setting up the environment
-If you have the installed Node, npm,Yeoman, OpenSearchServer you can move to next step.
+If Node, npm,Yeoman, OpenSearchServer are installed you can move to next step.
 
 #### Installing Node
 The documentation for installing node can be found [here](https://github.com/joyent/node/wiki/installation). 
+Additionally [this](http://www.joyent.com/blog/installing-node-and-npm/) link also provides some useful information.
 
 #### Installing OpenSearchServer
 The documentation for installing OpenSearchServer can be found [here](http://www.opensearchserver.com/documentation/installation/)
 
 #### Installing Yeoman
     npm install --global yo
-The full install instruction's can be found [here](http://yeoman.io/learning/index.html)
+Full install instruction's can be found [here](http://yeoman.io/learning/index.html)
 
 ##Setup the project
-In this tutorial we will use yeoman to setup the project. It’ll create the basic folders, files and configurations to get you up and running quickly.
+In this tutorial we will use yeoman to setup the project. It will create basic folders, files and configurations to get you up and running quickly.
 
 We'll use the generator called [generator-angular-fullstack](https://www.npmjs.org/package/generator-angular-fullstack) install it using. Install it using the below command.
 
     npm install -g generator-angular-fullstack
 
-We’ll run the generator to scaffold our application by answering some questions about our project.  We will use the default in this application.In this tutorial we use Jade as our HTML template language. More information about Jade can be found [here](http://jade-lang.com/)
+We will run the generator to scaffold our application by answering some questions about our project.  We will use the default settings in this application and Jade as our HTML template language. More information about Jade can be found [here](http://jade-lang.com/)
     
-    yo angular-fullstack –jade # The jade flag is used for Jade HTML templating 
-    [?] Would you like to include Twitter Bootstrap? (Y/n)
-    [?] Would you like to use the SCSS version of Twitter Bootstrap with the Compass CSS Authoring Framework? (Y/n)
+    yo angular-fullstack –-jade # The jade flag is used for Jade HTML templating 
+    [?] Would you like to use Sass (with Compass)? # Yes
+    [?] Would you like to include Twitter Bootstrap? # Yes
+    [?] Would you like to use the Sass version of Twitter Bootstrap? # Yes
     [?] Which modules would you like to include? (Press <space> to select)
     ❯⬢ angular-resource.js
      ⬢ angular-cookies.js
      ⬢ angular-sanitize.js
      ⬢ angular-route.js
-After answering these configuration questions, Yeoman will take a minute to scaffold our project files and pull down Node and Bower modules. Once that finishes, we’ll have our development environment all set up.
+    [?] Which modules would you like to include? (Press <space> to select) # We will use the default selections by pressing return.
+    [?] Would you like to include MongoDB with Mongoose? # No
+After answering these configuration questions, Yeoman will take a minute to scaffold our project files and pull down Node and Bower modules. Once finished, we will have our development environment all set up.
 
 The directory structure will look like this.
 
@@ -55,7 +59,7 @@ The directory structure will look like this.
         controllers/    # Ccontroller directory
             api.js      # API file
         routes.js       # The routes file
-     test/              # Tests (shocking, I know)
+    test/              # Tests (shocking, I know)
       bower.json         # Bower configuration file
       Gruntfile.js       # Grunt configuration file
       package.json       # Node/npm configuration file
@@ -75,18 +79,19 @@ Add the [node-oss-client](https://github.com/lemonde/node-oss-client) as a depen
 Save the file and run the below command
 
     npm install 
-Which will download and install OSS node client module.
+This will download and install OSS node client module.
 
 
 ## Initializing the API
-Add the search API in the API file located in the lib/controllers/api.js 
+Add the search API in the API file located in the lib/routes.js 
 
         app.get('/api/search/:query', api.search);
 
 ## Handling the API request
 
-The lib/controllers/api.js handles the search API requests.
-Which uses node-oss-client library to request the documents from OpenSearchServer and returns to the API. Specify a valid hostname,port, protocol, login and key.
+The lib/controllers/api.js handles the search API requests node-oss-client library is used to request the documents from OpenSearchServer and return them to the API. Specify a valid hostname,port, protocol, login and key.
+
+```javascript
     var oss = require('node-oss-client');
 
     var client = oss.createClient({
@@ -96,7 +101,7 @@ Which uses node-oss-client library to request the documents from OpenSearchServe
         login: 'example',
         key: '181123asda1474a3d91a77a69de7c77'
     });
-    var indexName = 'test'; # The name of the index to query.
+    var indexName = 'test'; // The name of the index to query.
     exports.search = function (request, response) {
 
         client.search(indexName, {
@@ -154,11 +159,12 @@ Which uses node-oss-client library to request the documents from OpenSearchServe
         });
 
     };
+```
 More information about the search request can be found [here](http://www.opensearchserver.com/documentation/api_v2/searching_using_fields/search.html)
 
 ## Controller to handle search.
 
-Handling ng-submit which is triggred while the form is submitted.
+Handling ng-submit which is triggered upon form submission.
 
 In app/scripts/controllers/main.js
 
@@ -181,7 +187,7 @@ In app/scripts/controllers/main.js
         }
 ## Creating the layout to display the form and result.
 
-In the app/views/partials/main.jade file remove the existing code and  create the form and layout to disply the result. 
+In the app/views/partials/main.jade file remove existing code and  create the form and layout to display the result. 
 
     # Search Form
      form.sidebar-form.col-centered(ng-submit="submit()")
@@ -202,7 +208,7 @@ In the app/views/partials/main.jade file remove the existing code and  create th
 ## Run the project
 Run the project from terminal using the below command  
 
-    Grunt serve
+    grunt serve
 ## Example
 
 You can find the whole example [here](https://github.com/naveenann/oss-node-example)
