@@ -6,7 +6,7 @@ form.sidebar-form.col-centered(ng-submit="submit()")
     span.input-group-btn
       button#search-btn.btn.btn-flat(type='submit', name='seach',)
         i(class='glyphicon glyphicon-search')
-div{{numFound}}
+div {{numFound}}
 div(ng-repeat='document in documents',ng-model='menus')
   h3
   a(href='{{document.fields[0].values[0]}}') {{document.snippets[1].values[0]}}

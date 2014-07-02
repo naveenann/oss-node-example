@@ -30,7 +30,7 @@ We'll use the generator called [generator-angular-fullstack](https://www.npmjs.o
 
 We will run the generator to scaffold our application by answering some questions about our project.  We will use the default settings in this application and Jade as our HTML template language. More information about Jade can be found [here](http://jade-lang.com/)
     
-    yo angular-fullstack –-jade # The jade flag is used for Jade HTML templating 
+    yo angular-fullstack --jade # The jade flag is used for Jade HTML templating 
     [?] Would you like to use Sass (with Compass)? # Yes
     [?] Would you like to include Twitter Bootstrap? # Yes
     [?] Would you like to use the Sass version of Twitter Bootstrap? # Yes
@@ -60,9 +60,9 @@ The directory structure will look like this.
             api.js      # API file
         routes.js       # The routes file
     test/              # Tests (shocking, I know)
-      bower.json         # Bower configuration file
-      Gruntfile.js       # Grunt configuration file
-      package.json       # Node/npm configuration file
+    bower.json         # Bower configuration file
+    Gruntfile.js       # Grunt configuration file
+    package.json       # Node/npm configuration file
 
 ## Adding OSS node client as dependency
 
@@ -89,7 +89,8 @@ Add the search API in the API file located in the lib/routes.js
 
 ## Handling the API request
 
-The lib/controllers/api.js handles the search API requests node-oss-client library is used to request the documents from OpenSearchServer and return them to the API. Specify a valid hostname,port, protocol, login and key.
+The `lib/controllers/api.js` handles the search API requests node-oss-client library is used to request the documents from OpenSearchServer and return them to the API. Specify a valid hostname,port, protocol, login and key.
+Add these code in the top of the file.
 
 ```javascript
     var oss = require('node-oss-client');
@@ -166,39 +167,45 @@ More information about the search request can be found [here](http://www.opensea
 
 Handling ng-submit which is triggered upon form submission.
 
-In app/scripts/controllers/main.js
+In `app/scripts/controllers/main.js` add the `$scope-submit`.
 
-      $scope.submit = function () {
-            $scope.loading = true;
-            var url = '/api/search/' + $scope.q + '/';
-            $http({
-                method: 'GET',
-                url: url
-            }).
-                success(function (data, status, headers, config) {
-                    $scope.numFound = data.results.numFound +" Results Found";
-                    $scope.documents = data.results.documents;
-
-                }).
-                error(function (data, status, headers, config) {
-                    $scope.name = 'Error!';
-                });
-
-        }
+      'use strict';
+      
+      angular.module('nodeExampleApp')
+        .controller('MainCtrl', function ($scope, $http) {
+           $scope.submit = function () {
+                  $scope.loading = true;
+                  var url = '/api/search/' + $scope.q + '/';
+                  $http({
+                      method: 'GET',
+                      url: url
+                  }).
+                      success(function (data, status, headers, config) {
+                          $scope.numFound = data.results.numFound +" Results Found";
+                          $scope.documents = data.results.documents;
+      
+                      }).
+                      error(function (data, status, headers, config) {
+                          $scope.name = 'Error!';
+                      });
+      
+              }
+        });
+        
 ## Creating the layout to display the form and result.
 
-In the app/views/partials/main.jade file remove existing code and  create the form and layout to display the result. 
+In the `app/views/partials/main.jade` file remove existing code and  create the form and layout to display the result. 
 
-    # Search Form
+    // Search Form
      form.sidebar-form.col-centered(ng-submit="submit()")
       .input-group
         input.form-control(id='q',type='text',autocomplete='off',placeholder='Search',ng-model='q')
         span.input-group-btn
           button#search-btn.btn.btn-flat(type='submit', name='seach',)
             i(class='glyphicon glyphicon-search')
-    #Display the number of document found.
+    // Display the number of document found.
     div{{numFound}}
-    #Iterate over the results
+    // Iterate over the results
     div(ng-repeat='document in documents',ng-model='menus')
       h3
       a(href='{{document.fields[0].values[0]}}') {{document.snippets[1].values[0]}}
