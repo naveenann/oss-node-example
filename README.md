@@ -83,14 +83,14 @@ This will download and install OSS node client module.
 
 
 ## Initializing the API
-Add the search API in the API file located in the lib/routes.js 
+Add the search API in the API file located in the `lib/routes.js` under `modules.exports` function. 
 
         app.get('/api/search/:query', api.search);
 
 ## Handling the API request
 
 The `lib/controllers/api.js` handles the search API requests node-oss-client library is used to request the documents from OpenSearchServer and return them to the API. Specify a valid hostname,port, protocol, login and key.
-Add these code in the top of the file.
+Add the below code at the top of the file after 'use strict'.
 
 ```javascript
     var oss = require('node-oss-client');
@@ -168,7 +168,7 @@ More information about the search request can be found [here](http://www.opensea
 Handling ng-submit which is triggered upon form submission.
 
 In `app/scripts/controllers/main.js` add the `$scope-submit`.
-
+```javascript
       'use strict';
       
       angular.module('nodeExampleApp')
@@ -191,11 +191,11 @@ In `app/scripts/controllers/main.js` add the `$scope-submit`.
       
               }
         });
-        
+```
 ## Creating the layout to display the form and result.
 
 In the `app/views/partials/main.jade` file remove existing code and  create the form and layout to display the result. 
-
+```
     // Search Form
      form.sidebar-form.col-centered(ng-submit="submit()")
       .input-group
@@ -204,19 +204,32 @@ In the `app/views/partials/main.jade` file remove existing code and  create the 
           button#search-btn.btn.btn-flat(type='submit', name='seach',)
             i(class='glyphicon glyphicon-search')
     // Display the number of document found.
-    div{{numFound}}
+    div {{numFound}}
     // Iterate over the results
     div(ng-repeat='document in documents',ng-model='menus')
       h3
       a(href='{{document.fields[0].values[0]}}') {{document.snippets[1].values[0]}}
       div {{document.snippets[0].values[0]}}
       a.btn.btn-primary.btn-xs(href='{{document.fields[0].values[0]}}',target='_blank') Read more
-
+```
 ## Run the project
 Run the project from terminal using the below command  
 
     grunt serve
+If there is no compass installed you will receive an warning saying 
+
+```
+Warning: Running "compass:server" (compass) task
+Warning: You need to have Ruby and Compass installed and in your system PATH for this task to work. More info: https://github.com/gruntjs/grunt-contrib-compass Use --force to continue.
+```
+### Install Compass
+Compass can be installed by below command if you are using OS X or linux, more information can be found [here](https://github.com/gruntjs/grunt-contrib-compass)
+
+```shell
+gem update --system
+gem install compass
+```
+ 
 ## Example
 
 You can find the whole example [here](https://github.com/naveenann/oss-node-example)
-
