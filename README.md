@@ -213,17 +213,17 @@ In the `app/views/partials/main.jade` file remove existing code and  create the 
       a.btn.btn-primary.btn-xs(href='{{document.fields[0].values[0]}}',target='_blank') Read more
 ```
 ## Run the project
-Run the project from terminal using the below command  
+Run the project from terminal using the below command.  
 
     grunt serve
-If there is no compass installed you will receive an warning saying 
+If compass is not installed you will receive a warning saying:
 
 ```
 Warning: Running "compass:server" (compass) task
 Warning: You need to have Ruby and Compass installed and in your system PATH for this task to work. More info: https://github.com/gruntjs/grunt-contrib-compass Use --force to continue.
 ```
 ### Install Compass
-Compass can be installed by below command if you are using OS X or linux, more information can be found [here](https://github.com/gruntjs/grunt-contrib-compass)
+Compass can be installed by below command if you are using OS X or linux, more information can be found [here](https://github.com/gruntjs/grunt-contrib-compass).
 
 ```shell
 gem update --system
@@ -232,4 +232,4 @@ gem install compass
  
 ## Example
 
-You can find the whole example [here](https://github.com/naveenann/oss-node-example)
+You can find the whole example [here](https://github.com/naveenann/oss-node-example).
