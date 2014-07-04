@@ -232,4 +232,4 @@ gem install compass
  
 ## Example
 
-You can find the whole example [here](https://github.com/naveenann/oss-node-example).
+You can find the example [here](https://github.com/naveenann/oss-node-example).
